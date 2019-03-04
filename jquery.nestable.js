@@ -5,6 +5,7 @@
 ;(function($, window, document, undefined)
 {
     var hasTouch = 'ontouchstart' in document;
+    var elArr    = [];
 
     /**
      * Detect CSS pointer-events property
@@ -58,6 +59,8 @@
         init: function()
         {
             var list = this;
+
+            elArr.push(this.el[0]); //save el
 
             list.reset();
 
@@ -290,6 +293,11 @@
             var el = this.dragEl.children(this.options.itemNodeName).first();
             el[0].parentNode.removeChild(el[0]);
             this.placeEl.replaceWith(el);
+
+            //fixbug
+            $.each(elArr, function(k, obj){
+                $(obj).change();
+            })
 
             this.dragEl.remove();
             this.el.trigger('change');
